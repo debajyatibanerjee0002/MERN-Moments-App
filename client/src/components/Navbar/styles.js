@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
   },
   profile: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: "400px",
   },
   userName: {
@@ -40,5 +40,20 @@ export default makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  [theme.breakpoints.down("sm")]: {
+    appBar: {
+      flexDirection: "column",
+    },
+    heading: {
+      fontSize: "3.1rem",
+    },
+    profile: {
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    toolbar: {
+      justifyContent: "center",
+    },
   },
 }));
