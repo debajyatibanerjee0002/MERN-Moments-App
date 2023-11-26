@@ -73,11 +73,13 @@ const Auth = () => {
   };
 
   const googleSuccessHandler = async (res) => {
+    console.log(res);
     const result = res?.profileObj;
     const token = res?.tokenId;
 
     try {
-      dispatch(authAsync({ data: { result, token } }));
+      // dispatch(authAsync({ data: { result, token } }));
+      dispatch(authAsync({ result, token }));
 
       navigate("/");
     } catch (error) {

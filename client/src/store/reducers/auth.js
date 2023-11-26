@@ -9,9 +9,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     auth(state, action) {
-      console.log("Inside authSlice auth -->", action.payload);
+      // console.log("Inside authSlice auth -->", action.payload);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
-      console.log("auth slice -->", action?.payload?.data);
+      // console.log("auth slice -->", action?.payload?.data);
       return { ...state, authData: action?.payload?.data };
     },
     logout(state, action) {

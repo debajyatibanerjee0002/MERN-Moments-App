@@ -17,6 +17,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log(user);
+
   const logoutHandler = () => {
     dispatch(logoutAsync());
 

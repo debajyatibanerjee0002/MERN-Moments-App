@@ -48,7 +48,7 @@ const Form = ({ currentId, setCurrentId }) => {
     clearHandler();
   };
 
-  console.log("Form --> ", user?.result?.name);
+  // console.log("Form --> ", user?.result?.name);
 
   if (!user?.result?.name) {
     return (
