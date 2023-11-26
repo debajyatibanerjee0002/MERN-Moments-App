@@ -6,7 +6,7 @@ export const getPostsAsync = () => {
   return async (dispatch) => {
     try {
       const { data } = await api.fetchPosts();
-      console.log("From getPostAsync --> ", data);
+      // console.log("From getPostAsync --> ", data);
       dispatch(postsActions.fetchPosts(data));
     } catch (error) {
       console.log(error.message);

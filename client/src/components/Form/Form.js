@@ -10,18 +10,28 @@ import useStyles from "./styles";
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: "",
   });
+  const user = JSON.parse(localStorage.getItem("profile"));
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
   const dispatch = useDispatch();
+  const clearHandler = () => {
+    setCurrentId(null);
+    setPostData({
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
 
   useEffect(() => {
+    if (!post?.title) clearHandler();
     if (post) setPostData(post);
   }, [post]);
 
@@ -29,23 +39,26 @@ const Form = ({ currentId, setCurrentId }) => {
     event.preventDefault();
     console.log("Inside form --> ", postData);
     if (currentId) {
-      dispatch(updatePostAsync(currentId, postData));
+      dispatch(
+        updatePostAsync(currentId, { ...postData, name: user?.result?.name })
+      );
     } else {
-      dispatch(createPostAsync(postData));
+      dispatch(createPostAsync({ ...postData, name: user?.result?.name }));
     }
     clearHandler();
   };
 
-  const clearHandler = () => {
-    setCurrentId(null);
-    setPostData({
-      creator: "",
-      title: "",
-      message: "",
-      tags: "",
-      selectedFile: "",
-    });
-  };
+  console.log("Form --> ", user?.result?.name);
+
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please sign in to create your own moments and like other's moments.
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -58,16 +71,6 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {post ? "Editing" : "Creating"} a Moment
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
         <TextField
           name="title"
           variant="outlined"

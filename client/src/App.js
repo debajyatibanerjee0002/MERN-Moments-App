@@ -1,57 +1,21 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Container } from "@material-ui/core";
 
-import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
-import { getPostsAsync } from "./store/actions/posts";
-
-import moments from "./images/moments.png";
-
-import useStyles from "./styles";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./components/Home/Home";
+import Auth from "./components/Auth/Auth";
 
 function App() {
-  const [currentId, setCurrentId] = useState(null);
-  const classes = useStyles();
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPostsAsync());
-  }, [dispatch]);
-
   return (
-    <Container maxWidth="lg">
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography className={classes.heading} variant="h2" align="center">
-          Moments
-        </Typography>
-        <img
-          className={classes.image}
-          src={moments}
-          alt="moments"
-          height="60"
-        />
-      </AppBar>
-      <Grow in>
-        <Container>
-          <Grid
-            className={classes.mainContainer}
-            container
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={3}
-          >
-            <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-    </Container>
+    <BrowserRouter>
+      <Container maxWidth="lg">
+        <Navbar />
+        <Routes>
+          <Route path="/" index element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+        </Routes>
+      </Container>
+    </BrowserRouter>
   );
 }
 
