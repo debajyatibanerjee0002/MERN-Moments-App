@@ -2,10 +2,9 @@
 
 ## Live demo -> https://moments-client.onrender.com/
 
-![Moments](https://i.ibb.co/LYCmvWD/auth-jwt1.png)
-![Moments](https://i.ibb.co/ZfpZXXg/auth-jwt2.png)
-![Moments](https://i.ibb.co/chQ4Tg1/auth-jwt3.png)
-![Moments](https://i.ibb.co/mBhwzCN/auth-jwt4.png)
+![Moments](https://i.ibb.co/5h1NJ6G/pagination-search1.png)
+![Moments](https://i.ibb.co/j4RLPmw/pagination-search2.png)
+![Moments](https://i.ibb.co/JzQP4rt/pagination-search3.png)
 ![Moments](https://i.ibb.co/chb0NYn/comments.png)
 
 ## Introduction
