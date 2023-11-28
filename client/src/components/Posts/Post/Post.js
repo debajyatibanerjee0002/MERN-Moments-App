@@ -130,7 +130,7 @@ const Post = ({ post, setCurrentId }) => {
         {isThisUser && (
           <Button
             size="small"
-            color="primary"
+            style={{ color: "red" }}
             onClick={() => {
               deletePostHandler(post._id);
             }}
