@@ -77,9 +77,21 @@ export const updateLikePostAsync = (id) => async (dispatch) => {
   try {
     const { data } = await api.updateLikePost(id);
 
-    console.log("updateLikePostAsync --> ", data);
+    // console.log("updateLikePostAsync --> ", data);
 
     dispatch(postsActions.updateLikePost(data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const commentPostAsync = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.comment(value, id);
+
+    dispatch(postsActions.comment(data));
+
+    return data.comments;
   } catch (error) {
     console.log(error);
   }

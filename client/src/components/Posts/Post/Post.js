@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActions,
@@ -28,10 +28,12 @@ const Post = ({ post, setCurrentId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [likes, setLikes] = useState(post?.likes);
   const isThisUser =
     user?.result?._id === post?.creator ||
     user?.result?.googleId === post?.creator;
-  // console.log(post?.creator, user?.result?._id);
+  const userId = user?.result?._id || user?.result?.googleId;
+  const hasLikePost = post?.likes.find((like) => like === userId);
 
   const deletePostHandler = (_id) => {
     dispatch(deletePostAsync(_id));
@@ -39,24 +41,28 @@ const Post = ({ post, setCurrentId }) => {
 
   const updateLikePostHandler = (_id) => {
     dispatch(updateLikePostAsync(_id));
+
+    if (hasLikePost) {
+      setLikes(post.likes.filter((like) => like !== userId));
+    } else {
+      setLikes([...post.likes, userId]);
+    }
   };
 
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find(
-        (like) => like === (user?.result?.googleId || user?.result?._id)
-      ) ? (
+    if (likes.length > 0) {
+      return likes.find((like) => like === userId) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {post.likes.length > 2
-            ? `You and ${post.likes.length - 1} others`
-            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
@@ -130,7 +136,7 @@ const Post = ({ post, setCurrentId }) => {
         {isThisUser && (
           <Button
             size="small"
-            color="primary"
+            style={{ color: "red" }}
             onClick={() => {
               deletePostHandler(post._id);
             }}
