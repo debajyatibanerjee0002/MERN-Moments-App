@@ -6,7 +6,8 @@ import { jwtDecode } from "jwt-decode";
 
 import { logoutAsync } from "../../store/actions/auth";
 
-import moments from "../../images/moments.png";
+import momentsLogo from "../../images/momentsLogo.png";
+import momentsText from "../../images/momentsText.png";
 
 import useStyles from "./styles";
 
@@ -17,7 +18,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(user);
+  // console.log(user);
 
   const logoutHandler = () => {
     dispatch(logoutAsync());
@@ -40,23 +41,20 @@ const Navbar = () => {
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography
-          component={Link}
-          to="/"
-          className={classes.heading}
-          variant="h2"
-          align="center"
-        >
-          Moments
-        </Typography>
+      <Link to="/" className={classes.brandContainer}>
         <img
           className={classes.image}
-          src={moments}
-          alt="moments"
-          height="60"
+          src={momentsText}
+          alt="icon"
+          height="50px"
         />
-      </div>
+        <img
+          className={classes.image}
+          src={momentsLogo}
+          alt="icon"
+          height="30px"
+        />
+      </Link>
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>

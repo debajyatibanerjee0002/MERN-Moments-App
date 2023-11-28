@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
+import { useNavigate } from "react-router-dom";
 
 import { createPostAsync, updatePostAsync } from "../../store/actions/posts";
 
@@ -9,6 +10,7 @@ import useStyles from "./styles";
 
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -17,7 +19,7 @@ const Form = ({ currentId, setCurrentId }) => {
   });
   const user = JSON.parse(localStorage.getItem("profile"));
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId ? state.posts.posts.find((p) => p._id === currentId) : null
   );
   const dispatch = useDispatch();
   const clearHandler = () => {
@@ -37,13 +39,14 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("Inside form --> ", postData);
     if (currentId) {
       dispatch(
         updatePostAsync(currentId, { ...postData, name: user?.result?.name })
       );
     } else {
-      dispatch(createPostAsync({ ...postData, name: user?.result?.name }));
+      dispatch(
+        createPostAsync({ ...postData, name: user?.result?.name }, navigate)
+      );
     }
     clearHandler();
   };
@@ -52,7 +55,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   if (!user?.result?.name) {
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={6}>
         <Typography variant="h6" align="center">
           Please sign in to create your own moments and like other's moments.
         </Typography>
@@ -61,7 +64,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         noValidate

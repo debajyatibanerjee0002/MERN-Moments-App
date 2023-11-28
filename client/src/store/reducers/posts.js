@@ -1,29 +1,70 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  isLoading: false,
+  posts: [],
+};
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    startLoading(state, action) {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    },
+    endLoading(state, action) {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    },
     fetchPosts(state, action) {
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload.data,
+        currentPage: action.payload.currentPage,
+        numberOfPages: action.payload.numberOfPages,
+      };
+    },
+    fetchPost(state, action) {
+      return {
+        ...state,
+        post: action.payload,
+      };
+    },
+    fetchPostsBySearch(state, action) {
+      return {
+        ...state,
+        posts: action.payload,
+      };
     },
     createPost(state, action) {
-      state.push(action.payload);
+      return { ...state, posts: state.posts.push(action.payload) };
     },
     updatePost(state, action) {
-      return state.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     },
     deletePost(state, action) {
-      return state.filter((post) => post._id !== action.payload);
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
     },
     updateLikePost(state, action) {
-      return state.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     },
   },
 });

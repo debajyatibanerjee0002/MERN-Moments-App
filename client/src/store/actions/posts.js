@@ -2,22 +2,51 @@ import { postsActions } from "../reducers/posts";
 
 import * as api from "../../api";
 
-export const getPostsAsync = () => {
+export const getPostAsync = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await api.fetchPosts();
+      dispatch(postsActions.startLoading());
+      const { data } = await api.fetchPost(id);
       // console.log("From getPostAsync --> ", data);
-      dispatch(postsActions.fetchPosts(data));
+      dispatch(postsActions.fetchPost(data));
+      dispatch(postsActions.endLoading());
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 };
 
-export const createPostAsync = (post) => async (dispatch) => {
+export const getPostsAsync = (page) => {
+  return async (dispatch) => {
+    try {
+      dispatch(postsActions.startLoading());
+      const { data } = await api.fetchPosts(page);
+      // console.log("From getPostAsync --> ", data);
+      dispatch(postsActions.fetchPosts(data));
+      dispatch(postsActions.endLoading());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getPostBySearchAsync = (searchQuery) => async (dispatch) => {
+  try {
+    dispatch(postsActions.startLoading());
+    const { data } = await api.fetchPostBySearch(searchQuery);
+    console.log(data);
+    dispatch(postsActions.fetchPostsBySearch(data));
+    dispatch(postsActions.endLoading());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createPostAsync = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
-    console.log("Inside createPostAsync --> ", data);
+    // console.log("Inside createPostAsync --> ", data);
+    navigate(`/posts/${data._id}`);
     dispatch(postsActions.createPost(data));
   } catch (error) {
     console.log(error.message);
